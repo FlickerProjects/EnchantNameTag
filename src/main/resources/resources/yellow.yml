@@ -1,0 +1,5 @@
+permission: enchantnametag.tag.yellow
+color: BLUE
+display:
+  material: YELLOW_WOOL
+  name: 'Yellow'

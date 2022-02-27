@@ -1,0 +1,5 @@
+permission: enchantnametag.tag.crown
+color: WHITE
+display:
+  material: REDSTONE_BLOCK
+  name: 'Crown'
