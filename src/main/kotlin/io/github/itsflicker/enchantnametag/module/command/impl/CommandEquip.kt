@@ -1,11 +1,11 @@
 package io.github.itsflicker.enchantnametag.module.command.impl
 
+import io.github.itsflicker.enchantnametag.getDataContainer
 import io.github.itsflicker.enchantnametag.module.conf.font.Font
 import io.github.itsflicker.enchantnametag.module.display.getOrCreateTeam
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
-import taboolib.expansion.getDataContainer
 import taboolib.library.xseries.XMaterial
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Linked
@@ -50,7 +50,7 @@ object CommandEquip {
                     buildItem(element.displayItem) {
                         lore += ""
                         lore += "§2> Click to equip"
-                        if (sender.getDataContainer()["equipped_tag"] == element.id) {
+                        if (player.getDataContainer()["equipped_tag"] == element.id) {
                             shiny()
                         }
                     }
@@ -67,12 +67,15 @@ object CommandEquip {
                 lore += ""
                 lore += "§2> Click to remove current tag"
             }) {
-                sender.getDataContainer()["equipped_tag"] = "NONE"
+                clicker.getDataContainer()["equipped_tag"] = "NONE"
+                clicker.getOrCreateTeam()
+                openMenu(clicker)
             }
-            onClick { _, element ->
-                sender.getDataContainer()["equipped_tag"] = element.id
-                sender.getOrCreateTeam()
-                openMenu(sender)
+            onClick { clickEvent, element ->
+                val player = clickEvent.clicker
+                player.getDataContainer()["equipped_tag"] = element.id
+                player.getOrCreateTeam()
+                openMenu(player)
             }
         }
     }

@@ -1,10 +1,16 @@
 plugins {
     `java-library`
-    id("io.izzel.taboolib") version "1.34"
+    id("io.izzel.taboolib") version "1.40"
     id("org.jetbrains.kotlin.jvm") version "1.5.10"
 }
 
 taboolib {
+    description {
+        dependencies {
+            name("TAB").optional(true)
+            name("TAB-Bridge").optional(true)
+        }
+    }
     install("common")
     install("common-5")
     install("module-chat")
@@ -15,20 +21,23 @@ taboolib {
     install("module-nms")
     install("module-ui")
     install("platform-bukkit")
-    install("expansion-player-database")
+    install("expansion-command-helper")
     classifier = null
-    version = "6.0.7-35"
+    version = "6.0.9-40"
 }
 
 repositories {
     mavenCentral()
+    maven("https://repo.kryptonmc.org/releases")
 }
 
 dependencies {
     compileOnly("ink.ptms.core:v11604:11604")
-    compileOnly("ink.ptms.core:v11800:11800:universal")
-    compileOnly("ink.ptms.core:v11800:11800:mapped")
+    compileOnly("ink.ptms.core:v11900:11900:mapped")
+    compileOnly("ink.ptms.core:v11900:11900:universal")
     compileOnly("ink.ptms:nms-all:1.0.0")
+
+    compileOnly("me.neznamy:tab-api:3.1.2") { isTransitive = false }
 
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))

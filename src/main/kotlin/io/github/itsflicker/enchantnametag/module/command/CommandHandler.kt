@@ -1,5 +1,6 @@
 package io.github.itsflicker.enchantnametag.module.command
 
+import io.github.itsflicker.enchantnametag.EnchantNameTag
 import io.github.itsflicker.enchantnametag.module.command.impl.CommandEquip
 import io.github.itsflicker.enchantnametag.module.command.impl.CommandListAll
 import io.github.itsflicker.enchantnametag.module.conf.Loader
@@ -25,6 +26,7 @@ object CommandHandler {
     val reload = subCommand {
         execute<ProxyCommandSender> { sender, _, _ ->
             Loader.loadResources(sender)
+            EnchantNameTag.updateAllNameTags()
         }
     }
 }

@@ -12,9 +12,9 @@ object NMSListener {
 
     @SubscribeEvent
     fun e(e: PacketSendEvent) {
-//        if (e.packet.name == "PacketPlayOutPlayerInfo") {
-//            NMS.INSTANCE.processPlayerInfo(e.packet)
-//        }
+        if (e.packet.name == "PacketPlayOutPlayerInfo") {
+            NMS.INSTANCE.processPlayerInfo(e.packet)
+        }
         if (e.packet.name == "PacketPlayOutScoreboardTeam") {
             NMS.INSTANCE.processScoreboardTeam(e.player, e.packet)
         }

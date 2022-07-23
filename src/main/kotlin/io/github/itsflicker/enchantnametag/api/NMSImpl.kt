@@ -3,8 +3,8 @@ package io.github.itsflicker.enchantnametag.api
 import io.github.itsflicker.enchantnametag.module.display.Scoreboard
 import net.minecraft.server.v1_16_R3.*
 import org.bukkit.entity.Player
-import taboolib.common.reflect.Reflex.Companion.invokeMethod
-import taboolib.common.reflect.Reflex.Companion.setProperty
+import taboolib.library.reflex.Reflex.Companion.invokeMethod
+import taboolib.library.reflex.Reflex.Companion.setProperty
 import taboolib.module.nms.Packet
 import java.util.*
 
@@ -15,7 +15,12 @@ import java.util.*
 class NMSImpl : NMS() {
 
     override fun processPlayerInfo(packet: Packet) {
-
+        val action = packet.read<PacketPlayOutPlayerInfo.EnumPlayerInfoAction>("action")!!
+        if (action != PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER && action != PacketPlayOutPlayerInfo.EnumPlayerInfoAction.UPDATE_DISPLAY_NAME) {
+            return
+        }
+        val list = packet.read<List<PacketPlayOutPlayerInfo.PlayerInfoData>>("entries")!!
+        packet.write("entries", list.filter { it.a()?.name != null })
     }
 
     override fun processScoreboardTeam(player: Player, packet: Packet) {
@@ -33,8 +38,8 @@ class NMSImpl : NMS() {
         }
         val team = Scoreboard.teams[name]!!
         val parameters = optional.get()
-        parameters.setProperty("playerPrefix", classChatSerializer.invokeMethod("fromJson", team.prefix, fixed = true))
-        parameters.setProperty("playerSuffix", classChatSerializer.invokeMethod("fromJson", team.suffix, fixed = true))
+        parameters.setProperty("playerPrefix", classChatSerializer.invokeMethod("b", team.prefix, isStatic = true))
+        parameters.setProperty("playerSuffix", classChatSerializer.invokeMethod("b", team.suffix, isStatic = true))
         parameters.setProperty("color", EnumChatFormat.values()[team.color.ordinal])
     }
 
@@ -45,7 +50,7 @@ class NMSImpl : NMS() {
     override fun getMetaEntityChatBaseComponent(index: Int, json: String): Any {
         return DataWatcher.Item<Optional<IChatBaseComponent>>(
                 DataWatcherObject(index, DataWatcherRegistry.f),
-                Optional.ofNullable(classChatSerializer.invokeMethod("fromJson", json, fixed = true))
+                Optional.ofNullable(classChatSerializer.invokeMethod("b", json, isStatic = true))
             )
     }
 }

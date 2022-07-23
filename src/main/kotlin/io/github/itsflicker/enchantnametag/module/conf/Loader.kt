@@ -2,6 +2,7 @@ package io.github.itsflicker.enchantnametag.module.conf
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
+import io.github.itsflicker.enchantnametag.EnchantNameTag
 import io.github.itsflicker.enchantnametag.module.conf.font.Font
 import io.github.itsflicker.enchantnametag.module.conf.font.FontCache
 import io.github.itsflicker.enchantnametag.module.conf.font.FontInfo
@@ -12,7 +13,7 @@ import taboolib.common.io.newFile
 import taboolib.common.platform.ProxyCommandSender
 import taboolib.common.platform.function.getDataFolder
 import taboolib.common.platform.function.releaseResourceFile
-import taboolib.module.configuration.SecuredFile
+import taboolib.module.configuration.Configuration
 import taboolib.module.lang.sendInfo
 import java.io.File
 import kotlin.system.measureTimeMillis
@@ -41,11 +42,13 @@ object Loader {
 
     fun loadResources(sender: ProxyCommandSender) {
         measureTimeMillis { loadResources() }.let {
-            sender.sendInfo("generated-resource-pack", Font.fonts.size, it)
+            sender.sendInfo("resource-pack-generated", Font.fonts.size, it)
         }
     }
 
     fun loadResources() {
+        Font.fonts.clear()
+
         val generated = File(getDataFolder(), "generated")
         if (generated.exists()) {
             generated.deepDelete()
@@ -54,21 +57,22 @@ object Loader {
         val fontFolder = newFile(generated.path + File.separatorChar + "enchantnametag" + File.separatorChar + "font", folder = true)
         val texturesFolder = newFile(generated.path + File.separatorChar + "enchantnametag" + File.separatorChar + "textures", folder = true)
 
-        var c = '\ue000'
-        val font = mutableMapOf<String, MutableList<FontCache>>()
+        var c = EnchantNameTag.conf.getString("initial-substitution", "\uf100")!![0]
+        val font = mutableMapOf<String, Pair<MutableList<FontCache>, Configuration>>()
 
         val json = JsonObject().apply {
             val jsonArray = JsonArray()
             filterFontFiles(folder).sorted().forEach {
                 val info = FontInfo(c.also { c += 1 }, c.also { c += 1 }, c.also { c += 1 })
                 val (id, cache) = loadResource(it, info)
-                font.computeIfAbsent(id) { ArrayList() }.add(cache)
+                val conf = Configuration.loadFromFile(newFile(folder, "$id.yml"))
+                font.computeIfAbsent(id) { ArrayList<FontCache>() to conf }.first.add(cache)
 
                 jsonArray.add(JsonObject().apply {
                     addProperty("type", "bitmap")
                     addProperty("file", "enchantnametag:${it.name.lowercase()}")
                     addProperty("ascent", 12)
-                    addProperty("height", 16)
+                    addProperty("height", conf.getInt("height", 16))
                     add("chars", JsonArray().apply {
                         add(native2ascii(info.left) + native2ascii(info.middle) + native2ascii(info.right))
                     })
@@ -84,7 +88,7 @@ object Loader {
         default.writeText(json.toString().replace("\\\\", "\\"))
 
         font.entries.forEach { (id, caches) ->
-            Font.fonts.add(Font(id, caches, SecuredFile.loadConfiguration(newFile(folder, "$id.yml"))))
+            Font.fonts.add(Font(id, caches.first, caches.second))
         }
     }
 
@@ -101,7 +105,7 @@ object Loader {
         return JsonObject().apply {
             addProperty("type", "bitmap")
             addProperty("file", "enchantnametag:space_split.png")
-            addProperty("ascent", -32768)
+            addProperty("ascent", -5000)
             addProperty("height", height)
             add("chars", JsonArray().apply {
                 add(native2ascii(char))

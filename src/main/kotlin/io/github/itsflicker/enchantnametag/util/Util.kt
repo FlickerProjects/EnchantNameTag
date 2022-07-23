@@ -1,5 +1,8 @@
 package io.github.itsflicker.enchantnametag.util
 
+import io.github.itsflicker.enchantnametag.module.hook.HookPlugin
+import org.bukkit.entity.Player
+
 /**
  * @author wlys
  * @since 2022/2/26 22:26
@@ -35,3 +38,5 @@ fun native2ascii(paramChar: Char): String {
     }
     return paramChar.toString()
 }
+
+val Player.teamName get() = HookPlugin.getTAB().getTeam(this) ?: name

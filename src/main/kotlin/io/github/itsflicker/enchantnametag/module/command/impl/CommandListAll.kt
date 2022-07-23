@@ -7,8 +7,8 @@ import org.bukkit.entity.ArmorStand
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.function.submit
-import taboolib.common.reflect.Reflex.Companion.setProperty
-import taboolib.common.reflect.Reflex.Companion.unsafeInstance
+import taboolib.library.reflex.Reflex.Companion.setProperty
+import taboolib.library.reflex.Reflex.Companion.unsafeInstance
 import taboolib.library.xseries.XMaterial
 import taboolib.module.nms.nmsClass
 import taboolib.module.nms.sendPacket

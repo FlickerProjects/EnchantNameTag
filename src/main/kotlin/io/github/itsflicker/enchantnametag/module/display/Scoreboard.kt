@@ -1,9 +1,9 @@
 package io.github.itsflicker.enchantnametag.module.display
 
+import io.github.itsflicker.enchantnametag.util.teamName
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
-import java.util.*
 
 /**
  * @author wlys
@@ -17,9 +17,14 @@ object Scoreboard {
 }
 
 fun Player.getOrCreateTeam(): ENTTeam {
-    return Scoreboard.teams.computeIfAbsent(name) { ENTTeam(this) }.also {
+    if (!Scoreboard.teams.containsKey(teamName)) {
+        Scoreboard.teams[teamName] = ENTTeam(this)
+    } else {
+        Scoreboard.teams[teamName]!!.check()
+    }
+    return Scoreboard.teams[teamName]!!.also {
         submit(delay = 20L) {
-            it.updateNameTag()
+            it.check()
         }
     }
 }

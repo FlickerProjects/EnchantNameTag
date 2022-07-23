@@ -1,9 +1,14 @@
 Database:
-  enable: false
-  file: '{plugin_folder}/data.db'
-  host: localhost
-  port: 3306
-  user: root
-  password: root
-  database: root
-  table: enchantnametag
+  Method: SQLite
+  SQLite:
+    file: '{plugin_folder}/data.db'
+    table: enchantnametag
+  SQL:
+    host: localhost
+    port: 3306
+    user: root
+    password: root
+    database: root
+    table: enchantnametag
+
+initial-substitution: "\uf100"

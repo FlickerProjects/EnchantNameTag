@@ -1,5 +1,6 @@
 package io.github.itsflicker.enchantnametag.module.conf.font
 
+import io.github.itsflicker.enchantnametag.module.hook.HookPlugin
 import io.github.itsflicker.enchantnametag.util.jsonArray
 import io.github.itsflicker.enchantnametag.util.jsonFormatWithFont
 import org.bukkit.ChatColor
@@ -39,9 +40,14 @@ class Font(
 
     val color by lazy {
         kotlin.runCatching { ChatColor.valueOf(conf.getString("color", "WHITE")!!.uppercase()) }.getOrElse {
-            warning("Unknown color")
+            warning("Unknown color in $id.yml")
+            warning("Available colors: ${ChatColor.values().joinToString(", ") { it.name }}")
             ChatColor.WHITE
         }
+    }
+
+    val period by lazy {
+        conf.getLong("period", 10)
     }
 
     private var index = 0
@@ -66,8 +72,8 @@ class Font(
 
     fun generatePrefixAndSuffix(player: Player): Pair<String, String> {
         val cache = cache
-        val p = if (prefixTemplate.isEmpty()) "" else prefixTemplate.replacePlaceholder(player)
-        val s = if (suffixTemplate.isEmpty()) "" else suffixTemplate.replacePlaceholder(player)
+        val p = HookPlugin.getTAB().getSuffix(player) ?: if (prefixTemplate.isEmpty()) "" else prefixTemplate.replacePlaceholder(player)
+        val s = HookPlugin.getTAB().getPrefix(player) ?: if (suffixTemplate.isEmpty()) "" else suffixTemplate.replacePlaceholder(player)
         val prefix = jsonArray(
             jsonFormatWithFont(
                 ChatColor.WHITE.toString() + cache.makeCustomNameTag(p, player.name, s),
@@ -88,5 +94,7 @@ class Font(
     companion object {
 
         val fonts = mutableListOf<Font>()
+
+        val EMPTY = Font("null", mutableListOf(), Configuration.empty())
     }
 }

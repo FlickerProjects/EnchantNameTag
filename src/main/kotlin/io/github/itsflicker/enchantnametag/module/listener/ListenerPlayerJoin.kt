@@ -1,10 +1,9 @@
 package io.github.itsflicker.enchantnametag.module.listener
 
-import io.github.itsflicker.enchantnametag.module.display.getOrCreateTeam
+import io.github.itsflicker.enchantnametag.EnchantNameTag
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.platform.event.EventPriority
 import taboolib.common.platform.event.SubscribeEvent
-import taboolib.expansion.setupDataContainer
 
 /**
  * @author wlys
@@ -14,9 +13,6 @@ object ListenerPlayerJoin {
 
     @SubscribeEvent(EventPriority.MONITOR, ignoreCancelled = true)
     fun e(e: PlayerJoinEvent) {
-        val player = e.player
-
-        player.setupDataContainer()
-        player.getOrCreateTeam()
+        EnchantNameTag.updateAllNameTags()
     }
 }

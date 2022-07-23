@@ -1,1 +1,3 @@
-generated-resource-pack: '&a成功生成材质包! &7({0}个标签, {1}ms)'
+plugin-dependency-hooked: '&7软依赖 &f{0} &7已兼容.'
+
+resource-pack-generated: '&a成功生成材质包! &7({0}个标签, {1}ms)'
