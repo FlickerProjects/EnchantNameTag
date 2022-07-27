@@ -1,5 +1,6 @@
 package io.github.itsflicker.enchantnametag.module.hook
 
+import io.github.itsflicker.enchantnametag.module.hook.impl.HookItemsAdder
 import io.github.itsflicker.enchantnametag.module.hook.impl.HookTAB
 import taboolib.common.platform.function.console
 import taboolib.module.lang.sendInfo
@@ -17,11 +18,12 @@ object HookPlugin {
     }
 
     private val registry: Array<HookAbstract> = arrayOf(
-        HookTAB()
+        HookTAB(),
+        HookItemsAdder()
     )
 
-    fun getTAB(): HookTAB {
-        return registry[0] as HookTAB
-    }
+    fun getTAB() = registry[0] as HookTAB
+
+    fun getItemsAdder() = registry[1] as HookItemsAdder
 
 }

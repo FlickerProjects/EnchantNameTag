@@ -9,6 +9,7 @@ taboolib {
         dependencies {
             name("TAB").optional(true)
             name("TAB-Bridge").optional(true)
+            name("ItemsAdder").optional(true)
         }
     }
     install("common")

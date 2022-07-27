@@ -1,3 +1,21 @@
 plugin-dependency-hooked: '&7Soft-Dependency &f{0} &7is hooked.'
+plugin-dependency-itemsadder-success: 'Automatically sent resource pack to ItemsAdder folder!'
+plugin-dependency-itemsadder-error: 'Error occurred while copying file {0}!'
 
 resource-pack-generated: '&aSuccessfully generated resource pack! ({0}tags, {1}ms)'
+
+info-on: 'enabled'
+info-off: 'disabled'
+info-force-show: '&aForce show others nameplates has been &c{0}'
+
+menu-previous-page: '&8Previous page'
+menu-next-page: '&8Next page'
+menu-listall-title: 'All Name Tags'
+menu-listall-preview: '&2> Click to preview'
+
+menu-equip-title: 'All Name Tags'
+menu-equip-equip: '&2> Click to equip'
+menu-equip-unavailable: "&cYou haven't got this tag!"
+menu-equip-current: '&3Current tag: &f{0}'
+menu-equip-none: 'None'
+menu-equip-remove: '&2> Click to remove current tag'

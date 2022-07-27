@@ -1,6 +1,8 @@
 package io.github.itsflicker.enchantnametag.api
 
+import io.github.itsflicker.enchantnametag.EnchantNameTag
 import io.github.itsflicker.enchantnametag.module.display.Scoreboard
+import io.github.itsflicker.enchantnametag.util.getDataContainer
 import net.minecraft.server.v1_16_R3.*
 import org.bukkit.entity.Player
 import taboolib.library.reflex.Reflex.Companion.invokeMethod
@@ -24,12 +26,12 @@ class NMSImpl : NMS() {
     }
 
     override fun processScoreboardTeam(player: Player, packet: Packet) {
-        val name = packet.read<String>("name")!!
-        if (!Scoreboard.teams.containsKey(name)) {
-            return
-        }
         val method = packet.read<Int>("method")!!
         if (method != 0 && method != 2) {
+            return
+        }
+        val name = packet.read<String>("name")!!
+        if (!Scoreboard.teams.containsKey(name) && !(player.name in EnchantNameTag.loadedRP || player.getDataContainer().getBoolean("force_show", false))) {
             return
         }
         val optional = packet.read<Optional<*>>("parameters")!!

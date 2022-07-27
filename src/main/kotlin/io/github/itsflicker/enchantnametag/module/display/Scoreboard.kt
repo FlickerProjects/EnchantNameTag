@@ -17,12 +17,7 @@ object Scoreboard {
 }
 
 fun Player.getOrCreateTeam(): ENTTeam {
-    if (!Scoreboard.teams.containsKey(teamName)) {
-        Scoreboard.teams[teamName] = ENTTeam(this)
-    } else {
-        Scoreboard.teams[teamName]!!.check()
-    }
-    return Scoreboard.teams[teamName]!!.also {
+    return Scoreboard.teams.computeIfAbsent(teamName) { ENTTeam(this) }.also {
         submit(delay = 20L) {
             it.check()
         }

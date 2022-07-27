@@ -2,13 +2,13 @@ Database:
   Method: SQLite
   SQLite:
     file: '{plugin_folder}/data.db'
-    table: enchantnametag
+    table: ent_user_data
   SQL:
     host: localhost
     port: 3306
     user: root
-    password: root
-    database: root
-    table: enchantnametag
+    password: password
+    database: minecraft
+    table: ent_user_data
 
 initial-substitution: "\uf100"

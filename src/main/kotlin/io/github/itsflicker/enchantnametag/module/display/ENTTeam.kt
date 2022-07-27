@@ -1,6 +1,6 @@
 package io.github.itsflicker.enchantnametag.module.display
 
-import io.github.itsflicker.enchantnametag.getDataContainer
+import io.github.itsflicker.enchantnametag.util.getDataContainer
 import io.github.itsflicker.enchantnametag.module.conf.font.Font
 import io.github.itsflicker.enchantnametag.util.teamName
 import org.bukkit.ChatColor
@@ -43,24 +43,17 @@ class ENTTeam(val player: Player) {
     var isHidden = false
 
     init {
+        team.color = ChatColor.WHITE
         team.addEntry(player.name)
-        check()
-        show()
     }
 
     fun check() {
-        val id = player.getDataContainer().getString("equipped_tag").let {
-            if (it == null || it.equals("NONE", ignoreCase = true)) {
-                return
-            } else {
-                it
-            }
-        }
+        val id = player.getDataContainer().getString("equipped_tag") ?: return
         val font = Font.fonts.firstOrNull { it.id.equals(id, ignoreCase = true) } ?: kotlin.run {
             return
         }
         if (!player.hasPermission(font.permission)) {
-            player.getDataContainer()["equipped_tag"] = "NONE"
+            player.getDataContainer()["equipped_tag"] = null
             return
         }
         font0 = font

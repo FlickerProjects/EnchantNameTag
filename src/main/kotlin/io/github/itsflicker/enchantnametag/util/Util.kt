@@ -1,7 +1,11 @@
 package io.github.itsflicker.enchantnametag.util
 
+import io.github.itsflicker.enchantnametag.Database
+import io.github.itsflicker.enchantnametag.module.display.getOrCreateTeam
 import io.github.itsflicker.enchantnametag.module.hook.HookPlugin
 import org.bukkit.entity.Player
+import taboolib.library.configuration.ConfigurationSection
+import taboolib.platform.util.onlinePlayers
 
 /**
  * @author wlys
@@ -40,3 +44,11 @@ fun native2ascii(paramChar: Char): String {
 }
 
 val Player.teamName get() = HookPlugin.getTAB().getTeam(this) ?: name
+
+fun Player.getDataContainer(): ConfigurationSection {
+    return Database.database.pull(this)
+}
+
+fun updateAllNameTags() {
+    onlinePlayers.forEach { it.getOrCreateTeam() }
+}

@@ -72,8 +72,8 @@ class Font(
 
     fun generatePrefixAndSuffix(player: Player): Pair<String, String> {
         val cache = cache
-        val p = HookPlugin.getTAB().getSuffix(player) ?: if (prefixTemplate.isEmpty()) "" else prefixTemplate.replacePlaceholder(player)
-        val s = HookPlugin.getTAB().getPrefix(player) ?: if (suffixTemplate.isEmpty()) "" else suffixTemplate.replacePlaceholder(player)
+        val p = HookPlugin.getTAB().getSuffix(player) ?: prefixTemplate.replacePlaceholder(player)
+        val s = HookPlugin.getTAB().getPrefix(player) ?: suffixTemplate.replacePlaceholder(player)
         val prefix = jsonArray(
             jsonFormatWithFont(
                 ChatColor.WHITE.toString() + cache.makeCustomNameTag(p, player.name, s),

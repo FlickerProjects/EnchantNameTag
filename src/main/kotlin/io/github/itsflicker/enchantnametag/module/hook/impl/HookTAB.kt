@@ -10,9 +10,6 @@ import org.bukkit.entity.Player
  */
 class HookTAB : HookAbstract() {
 
-    override val name: List<String>
-        get() = listOf("TAB", "TAB-Bridge")
-
     fun getTeam(player: Player): String? {
         return if (!isHooked) {
             null

@@ -14,6 +14,7 @@ import taboolib.module.nms.nmsClass
 import taboolib.module.nms.sendPacket
 import taboolib.module.ui.openMenu
 import taboolib.module.ui.type.Linked
+import taboolib.platform.util.asLangText
 import taboolib.platform.util.buildItem
 import taboolib.platform.util.inventoryCenterSlots
 
@@ -29,28 +30,28 @@ object CommandListAll {
 
     val command = subCommand {
         execute<Player> { sender, _, _ ->
-            sender.openMenu<Linked<Font>>("All Name Tags") {
+            sender.openMenu<Linked<Font>>(sender.asLangText("menu-listall-title")) {
                 rows(6)
                 slots(inventoryCenterSlots)
                 elements { Font.fonts }
                 setPreviousPage(47) { _, hasPreviousPage ->
                     if (hasPreviousPage) {
-                        buildItem(XMaterial.SPECTRAL_ARROW) { name = "§8上一页"}
+                        buildItem(XMaterial.SPECTRAL_ARROW) { name = sender.asLangText("menu-previous-page") }
                     } else {
-                        buildItem(XMaterial.ARROW) { name = "§8上一页"}
+                        buildItem(XMaterial.ARROW) { name = sender.asLangText("menu-previous-page") }
                     }
                 }
                 setNextPage(51) { _, hasNextPage ->
                     if (hasNextPage) {
-                        buildItem(XMaterial.SPECTRAL_ARROW) { name = "§8下一页"}
+                        buildItem(XMaterial.SPECTRAL_ARROW) { name = sender.asLangText("menu-next-page") }
                     } else {
-                        buildItem(XMaterial.ARROW) { name = "§8下一页"}
+                        buildItem(XMaterial.ARROW) { name = sender.asLangText("menu-next-page") }
                     }
                 }
                 onGenerate { _, element, _, _ ->
                     buildItem(element.displayItem) {
                         lore += ""
-                        lore += "§2> Click to preview"
+                        lore += sender.asLangText("menu-listall-preview")
                     }
                 }
                 onClick { _, element ->

@@ -1,3 +1,21 @@
 plugin-dependency-hooked: '&7软依赖 &f{0} &7已兼容.'
+plugin-dependency-itemsadder-success: '已自动将资源包拷贝至ItemsAdder文件夹!'
+plugin-dependency-itemsadder-error: '文件{0}拷贝时发生错误!'
 
 resource-pack-generated: '&a成功生成材质包! &7({0}个标签, {1}ms)'
+
+info-on: '开启'
+info-off: '关闭'
+info-force-show: '&a强制显示其他玩家名牌已&c{0}'
+
+menu-previous-page: '&8上一页'
+menu-next-page: '&8下一页'
+menu-listall-title: '所有名牌'
+menu-listall-preview: '&2> 点击预览'
+
+menu-equip-title: '所有名牌'
+menu-equip-equip: '&2> 点击佩戴'
+menu-equip-unavailable: '&c你没有获得这个名牌!'
+menu-equip-current: '&3当前名牌: &f{0}'
+menu-equip-none: '无'
+menu-equip-remove: '&2> 点击移除当前名牌'

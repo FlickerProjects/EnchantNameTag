@@ -6,6 +6,7 @@ import io.github.itsflicker.enchantnametag.EnchantNameTag
 import io.github.itsflicker.enchantnametag.module.conf.font.Font
 import io.github.itsflicker.enchantnametag.module.conf.font.FontCache
 import io.github.itsflicker.enchantnametag.module.conf.font.FontInfo
+import io.github.itsflicker.enchantnametag.module.hook.HookPlugin
 import io.github.itsflicker.enchantnametag.util.NegativeFont
 import io.github.itsflicker.enchantnametag.util.native2ascii
 import taboolib.common.io.deepDelete
@@ -86,6 +87,7 @@ object Loader {
         releaseResourceFile("generated/enchantnametag/textures/space_split.png")
         val default = newFile(fontFolder, "default.json")
         default.writeText(json.toString().replace("\\\\", "\\"))
+        HookPlugin.getItemsAdder().copyToIA(generated)
 
         font.entries.forEach { (id, caches) ->
             Font.fonts.add(Font(id, caches.first, caches.second))

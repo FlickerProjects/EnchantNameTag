@@ -1,6 +1,7 @@
 package io.github.itsflicker.enchantnametag.module.listener
 
 import io.github.itsflicker.enchantnametag.EnchantNameTag
+import io.github.itsflicker.enchantnametag.util.updateAllNameTags
 import org.bukkit.event.player.PlayerResourcePackStatusEvent
 import taboolib.common.platform.event.SubscribeEvent
 
@@ -13,7 +14,8 @@ object ListenerResourcePackStatus {
     @SubscribeEvent
     fun e(e: PlayerResourcePackStatusEvent) {
         if (e.status == PlayerResourcePackStatusEvent.Status.SUCCESSFULLY_LOADED) {
-            EnchantNameTag.updateAllNameTags()
+            EnchantNameTag.loadedRP += e.player.name
+            updateAllNameTags()
         }
     }
 }
